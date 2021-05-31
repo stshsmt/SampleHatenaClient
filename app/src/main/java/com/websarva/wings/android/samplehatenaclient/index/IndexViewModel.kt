@@ -1,29 +1,20 @@
 package com.websarva.wings.android.samplehatenaclient.index
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.websarva.wings.android.samplehatenaclient.model.HotEntry
-import com.websarva.wings.android.samplehatenaclient.network.HatenaHotEntryApi
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class IndexViewModel : ViewModel() {
+class IndexViewModel(private val repository: HatenaHotEntryRepository) : ViewModel() {
     private val _hotEntries = MutableLiveData<List<HotEntry>>()
     val hotEntries: LiveData<List<HotEntry>>
         get() = _hotEntries
 
-    init {
-        getHotEntries()
-    }
-
-    private fun getHotEntries() {
-        val hatenaHotEntryService = HatenaHotEntryApi.hatenaHotEntryService
+    fun getHotEntries() {
         viewModelScope.launch {
             try {
-                val rss = hatenaHotEntryService.getHotEntries()
+                val rss = repository.getHotEntries()
                 _hotEntries.value = rss.items
             } catch (e: Exception) {
                 //TODO: エラー時の処理
@@ -31,4 +22,15 @@ class IndexViewModel : ViewModel() {
             }
         }
     }
+}
+
+class IndexViewModelFactory(private val repository: HatenaHotEntryRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(IndexViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return IndexViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
 }

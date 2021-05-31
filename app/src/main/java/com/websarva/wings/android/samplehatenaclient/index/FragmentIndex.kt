@@ -12,13 +12,16 @@ import com.websarva.wings.android.samplehatenaclient.databinding.FragmentIndexBi
 
 class FragmentIndex : Fragment() {
     private val viewModel: IndexViewModel by lazy {
-        ViewModelProvider(this).get(IndexViewModel::class.java)
+        val factory = IndexViewModelFactory(HatenaHotEntryRepository.create())
+        ViewModelProvider(this, factory).get(IndexViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.getHotEntries()
+
         val binding = FragmentIndexBinding.inflate(inflater)
 
         val adapter = HotEntriesAdapter()
