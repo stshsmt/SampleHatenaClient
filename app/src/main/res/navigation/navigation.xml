@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/indexFragment"
-        android:name="com.websarva.wings.android.samplehatenaclient.IndexFragment"
+        android:name="com.websarva.wings.android.samplehatenaclient.index.FragmentIndex"
         android:label="fragment_index"
         tools:layout="@layout/fragment_index" />
 </navigation>
