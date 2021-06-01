@@ -4,11 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/indexFragment">
+    app:startDestination="@id/indexBaseFragment">
 
     <fragment
         android:id="@+id/indexFragment"
         android:name="com.websarva.wings.android.samplehatenaclient.index.FragmentIndex"
         android:label="fragment_index"
         tools:layout="@layout/fragment_index" />
+
+    <fragment
+        android:id="@+id/indexBaseFragment"
+        android:name="com.websarva.wings.android.samplehatenaclient.layout_base.IndexBaseFragment"
+        android:label="hatena"
+        tools:layout="@layout/fragment_index_base" />
 </navigation>

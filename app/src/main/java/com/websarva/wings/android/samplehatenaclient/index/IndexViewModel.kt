@@ -3,6 +3,7 @@ package com.websarva.wings.android.samplehatenaclient.index
 import android.util.Log
 import androidx.lifecycle.*
 import com.websarva.wings.android.samplehatenaclient.model.HotEntry
+import com.websarva.wings.android.samplehatenaclient.model.HotEntryKind
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -11,10 +12,10 @@ class IndexViewModel(private val repository: HatenaHotEntryRepository) : ViewMod
     val hotEntries: LiveData<List<HotEntry>>
         get() = _hotEntries
 
-    fun getHotEntries() {
+    fun getHotEntries(hotEntryKind: HotEntryKind) {
         viewModelScope.launch {
             try {
-                val rss = repository.getHotEntries()
+                val rss = repository.getHotEntries(hotEntryKind)
                 _hotEntries.value = rss.items
             } catch (e: Exception) {
                 //TODO: エラー時の処理

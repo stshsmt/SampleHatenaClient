@@ -9,6 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.samplehatenaclient.databinding.FragmentIndexBinding
+import com.websarva.wings.android.samplehatenaclient.model.HotEntryKind
+
+// FIXME: 宣言場所はここではまずい気がする
+val hotEntryKindKey = "hotEntryKindKey"
 
 class FragmentIndex : Fragment() {
     private val viewModel: IndexViewModel by lazy {
@@ -20,7 +24,8 @@ class FragmentIndex : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.getHotEntries()
+        val hotEntryKind = requireArguments().get(hotEntryKindKey) as HotEntryKind
+        viewModel.getHotEntries(hotEntryKind)
 
         val binding = FragmentIndexBinding.inflate(inflater)
 
