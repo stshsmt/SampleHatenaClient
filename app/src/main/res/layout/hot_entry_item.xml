@@ -7,11 +7,16 @@
         <variable
             name="hotEntry"
             type="com.websarva.wings.android.samplehatenaclient.model.HotEntry" />
+
+        <variable
+            name="hotEntryItemClickListener"
+            type="com.websarva.wings.android.samplehatenaclient.index.HotEntryItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> hotEntryItemClickListener.onClick(hotEntry)}">
 
         <ImageView
             android:id="@+id/hot_entry_image"

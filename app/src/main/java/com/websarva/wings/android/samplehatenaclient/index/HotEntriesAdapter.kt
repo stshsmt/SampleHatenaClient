@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.samplehatenaclient.databinding.HotEntryItemBinding
 import com.websarva.wings.android.samplehatenaclient.model.HotEntry
 
-class HotEntriesAdapter : ListAdapter<HotEntry, HotEntriesAdapter.ViewHolder>(HotEntryDiffCallback()){
+class HotEntriesAdapter(private val clickListener: HotEntryItemClickListener) : ListAdapter<HotEntry, HotEntriesAdapter.ViewHolder>(HotEntryDiffCallback()){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,8 +19,12 @@ class HotEntriesAdapter : ListAdapter<HotEntry, HotEntriesAdapter.ViewHolder>(Ho
     }
 
     class ViewHolder private constructor(private val binding: HotEntryItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HotEntry) {
+        fun bind(
+            item: HotEntry,
+            clickListener: HotEntryItemClickListener
+        ) {
             binding.hotEntry = item
+            binding.hotEntryItemClickListener = clickListener
         }
 
         companion object {
@@ -41,4 +45,8 @@ class HotEntryDiffCallback : DiffUtil.ItemCallback<HotEntry>() {
     override fun areContentsTheSame(oldItem: HotEntry, newItem: HotEntry): Boolean {
         return oldItem == newItem
     }
+}
+
+class HotEntryItemClickListener(val clickListener: (hotEntry: HotEntry) -> Unit) {
+    fun onClick(hotEntry: HotEntry) = clickListener(hotEntry)
 }

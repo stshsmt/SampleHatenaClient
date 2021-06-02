@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.websarva.wings.android.samplehatenaclient.databinding.FragmentIndexBinding
+import com.websarva.wings.android.samplehatenaclient.layout_base.IndexBaseFragmentDirections
 import com.websarva.wings.android.samplehatenaclient.model.HotEntryKind
 
 // FIXME: 宣言場所はここではまずい気がする
@@ -29,7 +32,9 @@ class FragmentIndex : Fragment() {
 
         val binding = FragmentIndexBinding.inflate(inflater)
 
-        val adapter = HotEntriesAdapter()
+        val adapter = HotEntriesAdapter(HotEntryItemClickListener { hotEntry ->
+            viewModel.onHotEntryClicked(hotEntry)
+        })
         binding.hotEntries.adapter = adapter
         binding.hotEntries.layoutManager = LinearLayoutManager(activity)
 
@@ -39,6 +44,17 @@ class FragmentIndex : Fragment() {
         viewModel.hotEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
+            }
+        })
+
+        viewModel.navigateToHotEntry.observe(viewLifecycleOwner, Observer { hotEntry ->
+            hotEntry?.let {
+                this.findNavController().navigate(
+                        IndexBaseFragmentDirections
+                                .actionToHotEntry(hotEntry.link)
+                )
+
+                viewModel.onHotEntryNavigated()
             }
         })
 

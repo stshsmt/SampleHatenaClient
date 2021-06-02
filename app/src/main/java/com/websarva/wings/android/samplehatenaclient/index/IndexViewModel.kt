@@ -12,6 +12,10 @@ class IndexViewModel(private val repository: HatenaHotEntryRepository) : ViewMod
     val hotEntries: LiveData<List<HotEntry>>
         get() = _hotEntries
 
+    private val _navigateToHotEntry = MutableLiveData<HotEntry>()
+    val navigateToHotEntry: LiveData<HotEntry>
+        get() = _navigateToHotEntry
+
     fun getHotEntries(hotEntryKind: HotEntryKind) {
         viewModelScope.launch {
             try {
@@ -22,6 +26,14 @@ class IndexViewModel(private val repository: HatenaHotEntryRepository) : ViewMod
                 Log.e("getHotEntries", e.message.toString())
             }
         }
+    }
+
+    fun onHotEntryClicked(hotEntry: HotEntry) {
+        _navigateToHotEntry.value = hotEntry
+    }
+
+    fun onHotEntryNavigated() {
+        _navigateToHotEntry.value = null
     }
 }
 

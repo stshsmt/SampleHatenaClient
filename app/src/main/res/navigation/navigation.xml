@@ -16,5 +16,24 @@
         android:id="@+id/indexBaseFragment"
         android:name="com.websarva.wings.android.samplehatenaclient.layout_base.IndexBaseFragment"
         android:label="hatena"
-        tools:layout="@layout/fragment_index_base" />
+        tools:layout="@layout/fragment_index_base">
+
+        <action
+            android:id="@+id/action_to_hot_entry"
+            app:destination="@id/hotEntryFragment">
+            <argument
+                android:name="url"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/hotEntryFragment"
+        android:name="com.websarva.wings.android.samplehatenaclient.hot_entry.HotEntryFragment"
+        android:label="fragment_entry"
+        tools:layout="@layout/fragment_hot_entry">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>
